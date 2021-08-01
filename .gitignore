@@ -129,3 +129,8 @@ dmypy.json
 .pyre/
 
 .vscode
+
+
+chromedriver
+.DS_Store
+daily_algorithm_scrapper.py
