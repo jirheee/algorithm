@@ -5,23 +5,42 @@ if __name__ == "__main__":
 
     tomato_map = [list(map(int, stdin.readline().split())) for  _ in range(n)]
 
-    print(tomato_map)
-
     visited = [[False for _ in range(m)] for _ in range(n)]
-    riped_tomatoes = set([(i, j) for i in range(n) for j in range(m) if tomato_map[i][j] == 1])
 
     directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-    def bfs(x, y):
-        # visited 복사?
-        queue = [(x, y)]
-        while queue:
-            x, y = queue.pop()
-            
+
+    def bfs(tomatoes):
+        new_tomatoes = []
+
+        for x,y  in tomatoes:
+            for dx, dy in directions:
+                new_x, new_y = x + dx, y + dy
+                if new_x < 0 or new_y < 0 or new_x >= n or new_y >= m:
+                    continue
+                if visited[new_x][new_y]:
+                    continue
+                visited[new_x][new_y] = True
+                if tomato_map[new_x][new_y] == 0:
+                    new_tomatoes.append((new_x, new_y))
+        
+        return new_tomatoes
     
     max_day = 0
-    while riped_tomatoes:
-        x, y = riped_tomatoes.pop()
-        max_day = max(max_day, bfs(*riped_tomatoes.pop()))
+
+    tomatoes = []
+    for r, row in enumerate(tomato_map):
+        for c, val in enumerate(row):
+            if val == 1:
+                visited[r][c] = True
+                tomatoes.append((r, c))
+            if val == -1:
+                visited[r][c] = True
+
+    while True:
+        tomatoes = bfs(tomatoes)        
+        if len(tomatoes) == 0:
+            break
+        max_day += 1
 
     if all([all(l) for l in visited]):
         print(max_day)
