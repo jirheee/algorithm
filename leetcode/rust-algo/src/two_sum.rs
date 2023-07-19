@@ -1,8 +1,8 @@
 use std::collections::HashMap;
 
-struct Solution;
+struct Solution1;
 
-impl Solution {
+impl Solution1 {
     pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
         let reverse_index_map = nums
             .iter()
@@ -19,5 +19,21 @@ impl Solution {
         }
 
         unreachable!("unreachable by assumption")
+    }
+}
+
+struct Solution2;
+
+impl Solution2 {
+    pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
+        let mut seen = HashMap::with_capacity(nums.len() / 2);
+
+        for (i, num) in nums.iter().enumerate() {
+            if let Some(&j) = seen.get(&(target - num)) {
+                return vec![j as i32, i as i32];
+            }
+            seen.insert(num, i);
+        }
+        unreachable!()
     }
 }
