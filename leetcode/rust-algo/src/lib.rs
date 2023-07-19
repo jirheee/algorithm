@@ -13,4 +13,5 @@ mod tests {
     }
 }
 
+mod binary_tree;
 mod two_sum;
